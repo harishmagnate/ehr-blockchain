@@ -1,0 +1,19 @@
+.text-teal{
+    color: teal;
+    font-weight: bold;
+}
+
+.btn-outline-teal{
+    color: teal;
+    border-color: teal;
+}
+
+.btn-outline-teal:hover{
+    background-color: teal;
+    color: white;
+    border-color: white;
+}
+
+a:hover{
+    color: teal;
+}

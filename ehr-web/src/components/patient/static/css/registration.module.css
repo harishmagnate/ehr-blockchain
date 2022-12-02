@@ -1,0 +1,17 @@
+.formgroup{
+    padding: 25px!important;
+}
+
+.formgroup label{
+    color: teal;
+    font-weight: 600;
+    padding-left: 2px;
+}
+
+.formgroup label::after{
+    content: "*";
+}
+
+.formrow{
+    margin-bottom: -15px!important;
+}

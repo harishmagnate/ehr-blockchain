@@ -1,0 +1,71 @@
+body {
+    font-family: Arial;
+    color: white;
+  }
+  
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  .left {
+    left: 0;
+    background: linear-gradient(rgba(248, 246, 246, 0.5),#e9ebe5), url('https://img.freepik.com/premium-photo/doctor-s-stethoscope-with-blue-background_23-2147652363.jpg?w=826');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin-top:10vh;
+    
+  }
+  
+  .right {
+    right: 0;
+    background: linear-gradient(rgba(248, 246, 246, 0.5),#e9ebe5), url('https://weillcornell.org/sites/default/files/styles/custom__1440x960_/public/news_images/shutterstock_2042270630.jpg?itok=SEhlYb4g');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin-top:10vh;
+  }
+  
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .centered img {
+    width: 200px;
+    border-radius: 50%;
+  }
+  ul.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+  }
+  
+  ul.topnav li {float: left;}
+  
+  ul.topnav li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  
+  ul.topnav li.right {float: right;}
+  
+  @media screen and (max-width: 600px) {
+    ul.topnav li.right, 
+    ul.topnav li {float: none;}
+  }
