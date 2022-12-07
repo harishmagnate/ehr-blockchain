@@ -1,32 +1,78 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Doctor from "../../api/Doctor";
 import DoctorLoginContext from "../../contexts/DoctorLoginContext";
 import styles from "./static/css/DoctorLogin.module.css"
 
 function DoctorLogin() {
-    const doctor = useContext(DoctorLoginContext);
-    // const [message, setmessage] = useState(doctor.isLogin);
+    const doctorcontext = useContext(DoctorLoginContext);
     const navigate = useNavigate()
+
+    const [email, setemail] = useState();
+    const [password, setpassword] = useState("");
+    const [error, seterror] = useState();
+    const [isError, setisError] = useState(false);
+    const [isLogin, setisLogin] = useState(false);
+    const [loginmsg, setloginmsg] = useState("");
 
     useEffect(()=>{
         
-        if(doctor.isLogin){
-            console.log("Navigate "+doctor.isLogin)
+        if(doctorcontext.isLogin){
+            console.log("Navigate "+doctorcontext.isLogin)
             navigate("/doctor")
             
         }
         
-        console.log(doctor.isLogin)
+        // console.log(doctorcontext.isLogin)
         
     })
+
+    const handleEmail = (event) => {
+        // console.log(event.target.value)
+        setemail(event.target.value)
+    }
+
+    const handlePassword = (event) => {
+        // console.log(event.target.value)
+        setpassword(event.target.value)
+    }
     
     
     function handleLogin(event){
         event.preventDefault();
-        doctor.login()
-        console.log("Doctor Try to login "+doctor.isLogin)
-        // setmessage(doctor.isLogin)
-        // console.log("Doctor is login "+doctor.isLogin)
+        if (password.trim() === "" || password.length <= 6) {
+            console.log(password.length)
+            setisError(true)
+            seterror("Password length should be more then 6")
+            return
+        }
+
+        const doctor = {
+            emailID: email,
+            password: password
+        }
+
+        Doctor.doctorLogin(doctor).then(data => {
+            setisError(false)
+            console.log(data);
+            setisLogin(true)
+            setloginmsg("Successfully Login. Redirecting to Home Page")
+            doctorcontext.login()
+            setTimeout(()=>{
+                navigate("/doctor")
+                console.log("done")
+            },1000)
+        }).catch(err => {
+            if (err.response.data && err.response.data === "false") {
+                setisError(true)
+                seterror("Invalid Credentials")
+                console.log(err.response.data);
+            }
+            else{
+                setisError(true)
+                seterror("Something Went Wrong!!")
+            }
+        })
 
     }
     return (
@@ -47,21 +93,20 @@ function DoctorLogin() {
                             <form onSubmit={handleLogin}>
                                 <div className="form-group">
                                     <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" required name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                                    <input type="email" onChange={handleEmail} required name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
                                     <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
                                 <div className="form-group">
                                     <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" required name="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+                                    <input type="password"  onChange={handlePassword}  required name="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
                                 </div>
-                                {/* <p className="text-danger font-weight-bold">{{ msg }}</p> */}
+                                {isError && <p className="text-danger text-center font-weight-bold">{error}</p>}
+                                {isLogin && <p className="text-teal text-center">{loginmsg}</p>}
                                 <br />
                                 <button type="submit" className={"btn btn-info btn-block "+styles.submit}>Submit</button>
                             </form>
                             <p className="text-center pt-3"><Link to="/doctor/new">Dont have an Account? Register Here</Link></p>
-                            {/* <p className="text-teal">{ message ? "Login" : "Not Login" }</p> */}
                         </div>
-                        {/* <button onClick={()=>{doctor.logout(); setmessage(doctor.isLogin)}}>Logout</button> */}
 
                     </div>
                 </div>
