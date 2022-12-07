@@ -16,11 +16,14 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/searchPatients', function(req, res){
-  let list = patientList;
-  if(req.body.id !== undefined && req.body.id !== "")
+router.get('/searchPatients/:id', function(req, res){
+  // let list = patientList;
+  let list = []
+  id = req.params.id
+  if(id !== undefined && id !== "")
   {
-      list = patientList.filter(x => x.id === req.body.id);
+    console.log("id : ",id)
+      list = patientList.filter(x => x.id === id);
   }
   res.status(200).json(list);
 });

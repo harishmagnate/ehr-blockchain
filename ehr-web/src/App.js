@@ -7,12 +7,14 @@ import PatientLogin from './components/patient/PatientLogin';
 import DoctorHome from './components/doctor/DoctorHome';
 import PatientHome from './components/patient/PatientHome';
 import DoctorLoginState from './contexts/DoctorLoginState';
+import PatientState from './contexts/PatientState';
 
 
 function App() {
   return (
     <>
       <DoctorLoginState>
+        <PatientState>
         <Router>
           <Navbar></Navbar>
           <Routes>
@@ -22,6 +24,7 @@ function App() {
             <Route path='/patient/*' element={<PatientHome></PatientHome>}></Route>
           </Routes>
         </Router>
+        </PatientState>
       </DoctorLoginState>
 
     </>

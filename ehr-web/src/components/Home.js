@@ -14,7 +14,7 @@ function Home() {
                 <div className={styles.centered}>
                     <img src="https://t3.ftcdn.net/jpg/03/10/11/70/240_F_310117075_pn44xY7Mk8y6Qn5DGEY3OD3oBG4maFzG.jpg" />
                     <br /><br /><br />
-                    <Link to="patient" className="btn btn-info" style={{marginLeft:"15px"}}>Patient</Link>
+                    <Link to="patient/login" className="btn btn-info" style={{marginLeft:"15px"}}>Patient</Link>
                 </div>
             </div>
         </>

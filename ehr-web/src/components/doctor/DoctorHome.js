@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DoctorLogin from './DoctorLogin';
 import DoctorRegistration from "./DoctorRegistration";
 import MyPatient from "./MyPatient";
-import Navbar from "./Navbar";
+import Navbar from "./DoctorNavbar";
 import PatientList from "./PatientList";
 function DoctorHome() {
     return (
