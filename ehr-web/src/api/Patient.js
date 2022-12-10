@@ -8,6 +8,10 @@ class Patient{
     patientLogin = (login) =>{
         return axios.post(this.url+"/login",login)
     }
+
+    registerPatient = (data) =>{
+        return axios.post(this.url+"/patient/register",data)
+    }
     
 }
 
