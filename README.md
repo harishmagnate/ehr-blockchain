@@ -7,9 +7,8 @@ For local development use docker to run Blockchain DB (EHR de-centralized data) 
 Command to pull docker image and run.
 
 docker pull mongo:latest
-docker pull bigchaindb/bigchaindb:all-in-one
 
-docker run -d -p 27018:27018 --name=ehrmongodb --add-host=mongoservice:172.17.0.1 mongo:latest
+docker pull bigchaindb/bigchaindb:all-in-one
 
 docker run -d -p 27018:27018 --name ehrmongodb mongo --port 27018
 
@@ -21,6 +20,8 @@ bigchaindb/bigchaindb:all-in-one
 
 
 Run the below command to verify bigchain DB is up.
+
 docker ps | grep bigchaindb
+
 docker ps | grep ehrmongodb
 
