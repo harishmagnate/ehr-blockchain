@@ -1,31 +1,31 @@
-const driver = require('bigchaindb-driver')
+import { Connection, Ed25519Keypair, Transaction } from 'bigchaindb-driver'
 
 // BigchainDB server instance or testnetwork (e.g. https://example.com/api/v1/)
 const API_PATH = 'http://localhost:9984/api/v1/'
-const conn = new driver.Connection(API_PATH)
+const conn = new Connection(API_PATH)
 
 // Send the transaction off to BigchainDB
 const postData = (patientKeySeed, assetdata, metadata) => {
 
-    const conn = new driver.Connection(API_PATH)
+    const conn = new Connection(API_PATH)
 
-    const alice = new driver.Ed25519Keypair(charlieSeed);
-    const bob = new driver.Ed25519Keypair(donaldSeed)
+    const alice = new Ed25519Keypair(charlieSeed);
+    const bob = new Ed25519Keypair(donaldSeed)
 
     // Construct a transaction payload
-    const txCreateAliceSimple = driver.Transaction.makeCreateTransaction(
+    const txCreateAliceSimple = Transaction.makeCreateTransaction(
         assetdata,
         metadata,
 
         // A transaction needs an output
-        [driver.Transaction.makeOutput(
-            driver.Transaction.makeEd25519Condition(alice.publicKey))
+        [Transaction.makeOutput(
+            Transaction.makeEd25519Condition(alice.publicKey))
         ],
         alice.publicKey
     )
 
     // Sign the transaction with private keys of Alice to fulfill it
-    const txCreateAliceSimpleSigned = driver.Transaction.signTransaction(txCreateAliceSimple, alice.privateKey)
+    const txCreateAliceSimpleSigned = Transaction.signTransaction(txCreateAliceSimple, alice.privateKey)
 
     conn.postTransactionCommit(txCreateAliceSimpleSigned)
         .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
@@ -34,16 +34,16 @@ const postData = (patientKeySeed, assetdata, metadata) => {
 
         // Transfer bicycle to Bob
         .then(() => {
-            const txTransferBob = driver.Transaction.makeTransferTransaction(
+            const txTransferBob = Transaction.makeTransferTransaction(
                 // signedTx to transfer and output index
                 [{ tx: txCreateAliceSimpleSigned, output_index: 0 }],
-                [driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(bob.publicKey))],
+                [Transaction.makeOutput(Transaction.makeEd25519Condition(bob.publicKey))],
                 // metadata
                 { price: '100 euro' }
             )
 
             // Sign with alice's private key
-            let txTransferBobSigned = driver.Transaction.signTransaction(txTransferBob, alice.privateKey)
+            let txTransferBobSigned = Transaction.signTransaction(txTransferBob, alice.privateKey)
             console.log('Posting signed transaction: ', txTransferBobSigned)
 
             // Post with commit so transaction is validated and included in a block
@@ -61,22 +61,22 @@ const postData = (patientKeySeed, assetdata, metadata) => {
 
 // Send the transaction off to BigchainDB
 const postPatientData = (patientKeySeed, assetdata, metadata) => {
-    const patientKey = new driver.Ed25519Keypair(patientKeySeed);
+    const patientKey = new Ed25519Keypair(patientKeySeed);
     console.log('patientKey', patientKey.publicKey);
 
     // Construct a transaction payload
-    const txCreatePatientAssetSimple = driver.Transaction.makeCreateTransaction(
+    const txCreatePatientAssetSimple = Transaction.makeCreateTransaction(
         assetdata,
         metadata,
         // A transaction needs an output
-        [driver.Transaction.makeOutput(
-            driver.Transaction.makeEd25519Condition(patientKey.publicKey))
+        [Transaction.makeOutput(
+            Transaction.makeEd25519Condition(patientKey.publicKey))
         ],
         patientKey.publicKey
     )
 
     // Sign the transaction with private keys of Alice to fulfill it
-    const txCreatePatientAssetSigned = driver.Transaction.signTransaction(txCreatePatientAssetSimple, patientKey.privateKey)
+    const txCreatePatientAssetSigned = Transaction.signTransaction(txCreatePatientAssetSimple, patientKey.privateKey)
 
     conn.postTransactionCommit(txCreatePatientAssetSigned)
         .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
@@ -90,4 +90,4 @@ const postPatientData = (patientKeySeed, assetdata, metadata) => {
     console.log('postTransactionCommit over')
 }
 
-module.exports = { postData, postPatientData }
+export default { postData, postPatientData }

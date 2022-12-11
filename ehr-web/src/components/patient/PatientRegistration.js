@@ -14,6 +14,8 @@ function PatientRegistration() {
         firstName: "",
         middleName: "",
         lastName: "",
+        username: "",
+        password: "",
         phone: "",
         emergencyContactNumber: "",
         email: "",
@@ -24,7 +26,8 @@ function PatientRegistration() {
         state: "",
         country: "",
         pincode: "",
-        address: ""
+        address: "",
+        type: "patient"
     });    
 
     const navigate = useNavigate()
@@ -74,25 +77,35 @@ function PatientRegistration() {
                             <div className="form-row">
                                 <div className={"form-group col-md-4 " + styles.formgroup}>
                                     <label>First Name</label>
-                                    <input type="text" name="firstName" value={patientInfo.firstName} onChange={handleChange} placeholder="First Name" className="form-control"></input>
+                                    <input type="text" name="firstName" value={patientInfo.firstName} onChange={handleChange} placeholder="First Name" className="form-control" required></input>
                                 </div>
                                 <div className={"form-group col-md-4 " + styles.formgroup}>
                                     <label>Middle Name</label>
-                                    <input type="text" name="middleName" value={patientInfo.middleName} onChange={handleChange} placeholder="Middle Name" className="form-control"></input>
+                                    <input type="text" name="middleName" value={patientInfo.middleName} onChange={handleChange} placeholder="Middle Name" className="form-control" required></input>
                                 </div>
                                 <div className={"form-group col-md-4 " + styles.formgroup}>
                                     <label>Last Name</label>
-                                    <input type="text" name="lastName" value={patientInfo.lastName} onChange={handleChange} placeholder="Last Name" className="form-control"></input>
+                                    <input type="text" name="lastName" value={patientInfo.lastName} onChange={handleChange} placeholder="Last Name" className="form-control" required></input>
                                 </div>
+                            </div>
+                            <div className="form-row">
+                                <div className={"form-group col-md-6 " + styles.formgroup}>
+                                    <label>User Name</label>
+                                    <input type="text" name="username" value={patientInfo.username} onChange={handleChange} placeholder="User Name" className="form-control" required></input>
+                                </div>
+                                <div className={"form-group col-md-6 " + styles.formgroup}>
+                                    <label>Password</label>
+                                    <input type="password" name="password" value={patientInfo.password} onChange={handleChange} className="form-control" required></input>
+                                </div>                               
                             </div>
                             <div className={"form-row " + styles.formrow}>
                                 <div className={"form-group col-md-4 " + styles.formgroup}>
                                     <label>Phone Number</label>
-                                    <input type="number" name="phoneNumber" value={patientInfo.phoneNumber} onChange={handleChange}  placeholder="Phone Number" className="form-control"></input>
+                                    <input type="number" name="phoneNumber" value={patientInfo.phoneNumber} onChange={handleChange}  placeholder="Phone Number" className="form-control" required></input>
                                 </div>
                                 <div className={"form-group col-md-4 " + styles.formgroup}>
                                     <label>Emergency Contact Number</label>
-                                    <input type="number" name="emergencyContactNumber" value={patientInfo.emergencyContactNumber} onChange={handleChange} placeholder="Emergency Contact Number" className="form-control"></input>
+                                    <input type="number" name="emergencyContactNumber" value={patientInfo.emergencyContactNumber} onChange={handleChange} placeholder="Emergency Contact Number" className="form-control" required></input>
                                 </div>
                                 <div className={"form-group col-md-4 " + styles.formgroup}>
                                     <label>Email</label>

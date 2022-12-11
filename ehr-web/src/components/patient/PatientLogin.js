@@ -6,8 +6,8 @@ import { useContext, useEffect, useState } from "react";
 import PatientContext from "../../contexts/PatientContext";
 
 function PatientLogin() {
-    const [email, setemail] = useState();
-    const [password, setpassword] = useState("");
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState("");
     const [error, seterror] = useState();
     const [isError, setisError] = useState(false);
     const [isLogin, setisLogin] = useState(false);
@@ -23,28 +23,29 @@ function PatientLogin() {
         }
     },[])
 
-    const handleEmail = (event) => {
+    const handleusername = (event) => {
         // console.log(event.target.value)
-        setemail(event.target.value)
+        setUsername(event.target.value)
     }
 
     const handlePassword = (event) => {
         // console.log(event.target.value)
-        setpassword(event.target.value)
+        setPassword(event.target.value)
     }
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        if (password.trim() === "" || password.length <= 6) {
+        if (password.trim() === "" || password.length <= 5) {
             console.log(password.length)
             setisError(true)
-            seterror("Password length should be more then 6")
+            seterror("Password length should be more then 5")
             return
         }
 
         const member = {
-            emailID: email,
-            password: password
+            username: username,
+            password: password,
+            type: 'patient'
         }
 
         Patient.patientLogin(member).then(data => {
@@ -86,9 +87,8 @@ function PatientLogin() {
                         <div className={"card-body " + styles.c} style={{ paddingTop: "0px" }}>
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" onChange={handleEmail} required name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
-                                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                                    <label for="exampleInputusername1">username address</label>
+                                    <input type="text" onChange={handleusername} required name="username" className="form-control" id="exampleInputusername1" aria-describedby="usernameHelp" placeholder="Enter username" />
                                 </div>
                                 <div className="form-group">
                                     <label for="exampleInputPassword1">Password</label>

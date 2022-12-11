@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const patient = require('../Patient');
+import { Router } from 'express';
+import patient from '../Patient';
+import sampleRepo from '../repos/sample_repo.js';
 
-const sampleRepo = require('../repos/sample_repo.js');
+const router = Router();
 
 const patientList = [
   new patient ("1001","first Name1", "last Name1", "Email1@123.com"),
@@ -28,4 +28,4 @@ router.get('/searchPatients/:id', function(req, res){
   res.status(200).json(list);
 });
 
-module.exports = router;
+export default router;

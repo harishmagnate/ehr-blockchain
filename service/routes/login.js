@@ -1,5 +1,7 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+import { searchByUserNamePassword } from '../repos/ehr_mongodb_repo.js';
+
+const router = Router();
 
 const userDetails =
     [
@@ -14,11 +16,19 @@ const userDetails =
     ]
 
 router.post('/', (req, res) => {
-    if (userDetails.filter(x => x.emailID === req.body.emailID && x.password === req.body.password).length != 0) {
-        return res.status(200).json("true");
-    } else {
+    const loginData = req.body
+    searchByUserNamePassword(loginData).then(response => {
+        console.log(response);
+        if (response && response.firstName && response.password === loginData.password) {
+            return res.status(200).json("true");
+        } else {
+            return res.status(500).json("false");
+        }
+    }).catch(error => {
+        log.error(error)
         return res.status(500).json("false");
-    }
+    })
+    
 })
 
-module.exports = router;
+export default router;
