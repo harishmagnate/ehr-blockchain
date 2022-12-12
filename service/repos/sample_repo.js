@@ -1,47 +1,31 @@
-const driver = require('bigchaindb-driver')
+import { Connection, Ed25519Keypair, Transaction } from 'bigchaindb-driver'
 
 // BigchainDB server instance or testnetwork (e.g. https://example.com/api/v1/)
 const API_PATH = 'http://localhost:9984/api/v1/'
-
-// Create a new keypair for Alice and Bob
-const alice = new driver.Ed25519Keypair()
-const bob = new driver.Ed25519Keypair()
-
-console.log('Alice: ', alice.publicKey)
-console.log('Bob: ', bob.publicKey)
-
-// Define the asset to store, in this example
-// we store a bicycle with its serial number and manufacturer
-const assetdata = {
-    'bicycle': {
-        'serial_number': 'cde',
-        'manufacturer': 'Bicycle Inc.',
-    }
-}
-
-// Metadata contains information about the transaction itself
-// (can be `null` if not needed)
-// E.g. the bicycle is fabricated on earth
-const metadata = { 'planet': 'earth' }
-
-// Construct a transaction payload
-const txCreateAliceSimple = driver.Transaction.makeCreateTransaction(
-    assetdata,
-    metadata,
-
-    // A transaction needs an output
-    [driver.Transaction.makeOutput(
-        driver.Transaction.makeEd25519Condition(alice.publicKey))
-    ],
-    alice.publicKey
-)
-
-// Sign the transaction with private keys of Alice to fulfill it
-const txCreateAliceSimpleSigned = driver.Transaction.signTransaction(txCreateAliceSimple, alice.privateKey)
+const conn = new Connection(API_PATH)
 
 // Send the transaction off to BigchainDB
-const postData = () => {
-    const conn = new driver.Connection(API_PATH)
+const postData = (patientKeySeed, assetdata, metadata) => {
+
+    const conn = new Connection(API_PATH)
+
+    const alice = new Ed25519Keypair(charlieSeed);
+    const bob = new Ed25519Keypair(donaldSeed)
+
+    // Construct a transaction payload
+    const txCreateAliceSimple = Transaction.makeCreateTransaction(
+        assetdata,
+        metadata,
+
+        // A transaction needs an output
+        [Transaction.makeOutput(
+            Transaction.makeEd25519Condition(alice.publicKey))
+        ],
+        alice.publicKey
+    )
+
+    // Sign the transaction with private keys of Alice to fulfill it
+    const txCreateAliceSimpleSigned = Transaction.signTransaction(txCreateAliceSimple, alice.privateKey)
 
     conn.postTransactionCommit(txCreateAliceSimpleSigned)
         .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
@@ -50,16 +34,16 @@ const postData = () => {
 
         // Transfer bicycle to Bob
         .then(() => {
-            const txTransferBob = driver.Transaction.makeTransferTransaction(
+            const txTransferBob = Transaction.makeTransferTransaction(
                 // signedTx to transfer and output index
                 [{ tx: txCreateAliceSimpleSigned, output_index: 0 }],
-                [driver.Transaction.makeOutput(driver.Transaction.makeEd25519Condition(bob.publicKey))],
+                [Transaction.makeOutput(Transaction.makeEd25519Condition(bob.publicKey))],
                 // metadata
                 { price: '100 euro' }
             )
 
             // Sign with alice's private key
-            let txTransferBobSigned = driver.Transaction.signTransaction(txTransferBob, alice.privateKey)
+            let txTransferBobSigned = Transaction.signTransaction(txTransferBob, alice.privateKey)
             console.log('Posting signed transaction: ', txTransferBobSigned)
 
             // Post with commit so transaction is validated and included in a block
@@ -75,4 +59,35 @@ const postData = () => {
         .then(assets => console.log('Found assets with serial number Bicycle Inc.:', assets))
 }
 
-module.exports = { postData }
+// Send the transaction off to BigchainDB
+const postPatientData = (patientKeySeed, assetdata, metadata) => {
+    const patientKey = new Ed25519Keypair(patientKeySeed);
+    console.log('patientKey', patientKey.publicKey);
+
+    // Construct a transaction payload
+    const txCreatePatientAssetSimple = Transaction.makeCreateTransaction(
+        assetdata,
+        metadata,
+        // A transaction needs an output
+        [Transaction.makeOutput(
+            Transaction.makeEd25519Condition(patientKey.publicKey))
+        ],
+        patientKey.publicKey
+    )
+
+    // Sign the transaction with private keys of Alice to fulfill it
+    const txCreatePatientAssetSigned = Transaction.signTransaction(txCreatePatientAssetSimple, patientKey.privateKey)
+
+    conn.postTransactionCommit(txCreatePatientAssetSigned)
+        .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
+        // With the postTransactionCommit if the response is correct, then the transaction
+        // is valid and commited to a block                
+        // Search for asset based on the serial number of the bicycle
+        .then(() => conn.searchAssets('firstName'))
+        .then(assets => console.log('Found assets with firstName.:', assets))
+        .catch(error => console.log('Error', error))
+
+    console.log('postTransactionCommit over')
+}
+
+export default { postData, postPatientData }

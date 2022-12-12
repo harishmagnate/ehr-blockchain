@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var patient = require('../Patient');
+import { Router } from 'express';
+import patient from '../Patient';
+import sampleRepo from '../repos/sample_repo.js';
 
-var sampleRepo = require('../repos/sample_repo.js');
+const router = Router();
 
 const patientList = [
   new patient ("1001","first Name1", "last Name1", "Email1@123.com"),
@@ -28,29 +28,4 @@ router.get('/searchPatients/:id', function(req, res){
   res.status(200).json(list);
 });
 
-router.post('/registration',(req, res) => {
-
-  let registrationRequest = {
-      rirstName : req.body.firstName,
-      middleName : req.body.middleName,
-      lastName : req.body.lastName,
-      phone : req.body.phone,
-      emergencyContactNumber : req.body.emergencyContactNumber,
-      email : req.body.email,
-      nationality : req.body.nationality,
-      dateOfBirth : req.body.dateOfBirth,
-      preferredLanguage : req.body.preferredLanguage,
-      city : req.body.city,
-      state : req.body.state,
-      country : req.body.country,
-      pincode : req.body.pincode,
-      address : req.body.address,
-      isAttested : req.body.isAttested
-  }
-  
-  return res.status(200);
-  
-})
-
-
-module.exports = router;
+export default router;

@@ -1,41 +1,47 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const cors = require('cors')
+import express, { json, urlencoded } from 'express';
+import { join } from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import cors from 'cors';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import loginRouter from './routes/login';
+import patientRouter from './routes/patient';
+import doctorRouter from './routes/doctor';
 
-var app = express();
+const app = express();
+const createError = require('http-errors');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public')));
 
 let corsOptions = {
-  origin : ['http://localhost:3000'],
+  origin: ['http://localhost:3000'],
 }
 
 app.use(cors(corsOptions))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/patient', patientRouter);
+app.use('/doctor', doctorRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -45,4 +51,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+/* istanbul ignore next */
+if (!module.parent) {
+  const port = 5000
+  app.listen(port, function () {
+    console.log('EHR Service app listening on port ' + port + '!');
+  });  
+}
+
+export default app;
