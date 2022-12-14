@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Doctor from "../../api/Doctor";
 import DoctorLoginContext from "../../contexts/DoctorLoginContext";
 import styles from "./static/css/DoctorLogin.module.css"
@@ -21,7 +22,7 @@ function DoctorLogin() {
             console.log("Navigate " + doctorcontext.isLogin)
             navigate("/doctor")
         }
-    })
+    },[])
 
     const handleUserName = (event) => {
         setUsername(event.target.value)
@@ -51,8 +52,9 @@ function DoctorLogin() {
             setisError(false)
             console.log(data);
             setisLogin(true)
-            setloginmsg("Successfully Login. Redirecting to Home Page")
+            // setloginmsg("Successfully Login. Redirecting to Home Page")
             doctorcontext.login()
+            toast.success("Successfully Login.")
             setTimeout(() => {
                 navigate("/doctor")
                 console.log("done")

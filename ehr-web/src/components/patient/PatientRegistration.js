@@ -40,7 +40,8 @@ function PatientRegistration() {
         Patient.registerPatient(patientInfo).then(data => {
             setIsError(false)
             console.log(data);
-            toast.success('Successfully Saved')
+            // toast.success('Successfully Saved')
+            toast.success('Successfully Saved. Try to login')
             setTimeout(() => {
                 navigate("/patient")
             }, 1000)

@@ -19,7 +19,8 @@ router.get('/', function(req, res, next) {
 router.get('/searchPatients/:id', function(req, res){
   // let list = patientList;
   let list = []
-  id = req.params.id
+  var id = req.params.id
+  console.log(req.params)
   if(id !== undefined && id !== "")
   {
     console.log("id : ",id)
