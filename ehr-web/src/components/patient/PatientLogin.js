@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Patient from "../../api/Patient";
 import { useContext, useEffect, useState } from "react";
 import PatientContext from "../../contexts/PatientContext";
+import { toast } from "react-toastify";
 
 function PatientLogin() {
     const [username, setUsername] = useState();
@@ -52,7 +53,8 @@ function PatientLogin() {
             setisError(false)
             console.log(data);
             setisLogin(true)
-            setloginmsg("Successfully Login. Redirecting to Home Page")
+            // setloginmsg("Successfully Login. Redirecting to Home Page")
+            toast.success("Successfully Login.")
             patientc.login()
             setTimeout(()=>{
                 navigate("/patient")

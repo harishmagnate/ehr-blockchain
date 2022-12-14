@@ -21,7 +21,7 @@ function Navbar() {
                         <Link className="nav-link" to="/doctor">Home <span className="sr-only">(current)</span></Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Features</a>
+                        <Link className="nav-link" to="/doctor/new">Register</Link>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#">Pricing</a>

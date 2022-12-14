@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./PatientNavbar";
-import Home from "./Home";
+import Home from "./PatientIndex";
 import PatientLogin from "./PatientLogin";
 import PatientRegistration from "./PatientRegistration";
 function PatientHome() {

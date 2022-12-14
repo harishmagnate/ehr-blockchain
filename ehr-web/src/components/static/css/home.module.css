@@ -52,7 +52,9 @@ body {
     background-color: white;
   }
   
-  ul.topnav li {float: left;}
+  ul.topnav li {float: left;
+    display: inline-block!important;
+  }
   
   ul.topnav li a {
     display: block;
