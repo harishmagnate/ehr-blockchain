@@ -1,9 +1,22 @@
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import DoctorLoginContext from "../../contexts/DoctorLoginContext";
+
 function MyPatient() {
 
     const patients = [{ id: "1", firstName: "Piyush", lastName: "Gupta", email: "pg339875@gmail.com" },
     { id: "1", firstName: "Piyush", lastName: "Gupta", email: "pg339875@gmail.com" },
     { id: "1", firstName: "Piyush", lastName: "Gupta", email: "pg339875@gmail.com" },
     { id: "1", firstName: "Piyush", lastName: "Gupta", email: "pg339875@gmail.com" }]
+
+
+    const doctorcontext = useContext(DoctorLoginContext)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if(!doctorcontext.isLogin){
+            navigate("/doctor/login")
+        }
+    })
 
     return (
         <div className="container mt-5">
@@ -28,7 +41,7 @@ function MyPatient() {
                                         <td>{patient.firstName}</td>
                                         <td>{patient.lastName}</td>
                                         <td>{patient.email}</td>
-                                        <td><button className="btn btn-success btn-sm px-3">View Records</button></td>
+                                        <td><Link className="btn btn-success btn-sm px-3" to="/doctor/mypatients/record/1">View Records</Link></td>
                                     </tr>
                                 );
                             }

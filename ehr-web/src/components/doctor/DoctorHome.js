@@ -4,6 +4,7 @@ import DoctorRegistration from "./DoctorRegistration";
 import MyPatient from "./MyPatient";
 import Navbar from "./DoctorNavbar";
 import PatientList from "./PatientList";
+import PatientRecord from "./PatientReccord";
 function DoctorHome() {
     return (
         <>
@@ -13,6 +14,7 @@ function DoctorHome() {
                 <Route path="/new" element={<DoctorRegistration></DoctorRegistration>}></Route>
                 <Route path="/" element={<PatientList></PatientList>}></Route>
                 <Route path="/mypatients" element={<MyPatient></MyPatient>}></Route>
+                <Route path="/mypatients/record/:id" element={<PatientRecord></PatientRecord>}></Route>
             </Routes>
         </>
 

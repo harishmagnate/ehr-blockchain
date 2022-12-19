@@ -1,0 +1,21 @@
+.formgroup{
+    padding: 15px!important;
+}
+
+.formgroup label{
+    color: teal;
+    font-weight: 600;
+    padding-left: 2px;
+}
+
+.formgroup label::after{
+    content: "*";
+}
+
+.formrow{
+    /* margin-bottom: -5px!important; */
+}
+
+.check{
+    margin-left: 10px;
+}
