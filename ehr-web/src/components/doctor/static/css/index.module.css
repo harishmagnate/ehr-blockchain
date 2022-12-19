@@ -1,0 +1,26 @@
+.navtabs{
+    justify-content: center;
+    color: blue
+}
+
+.navtabs a{
+    /* color: teal!important; */
+    font-size: 20px;
+    margin: .5rem 1rem;
+    padding-bottom: 5px!important;
+}
+
+.navtabs a:hover{
+    cursor: pointer!important;
+    border-bottom: 3px solid teal;
+    border-radius: 0px;
+    color: black
+    
+}
+
+.navtabs .active{
+    
+    color: black!important;
+    border-bottom: 3px solid teal;
+    border-radius: 0px;
+}
